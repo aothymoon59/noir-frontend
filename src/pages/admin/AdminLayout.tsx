@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { NavLink, Outlet, Link } from "react-router-dom";
 import {
   LayoutDashboard, Package, ShoppingBag, Users, Tags, Layers,
   Image, Palette, Settings, BarChart3, FileText, Menu as MenuIcon,
-  LayoutTemplate, Ticket, Bell, Search, Sun, Moon
+  LayoutTemplate, Ticket, Bell, Search, Sun, Moon, X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useTheme } from "@/lib/store";
 
 const groups = [
@@ -52,33 +54,57 @@ const groups = [
   },
 ];
 
+function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
+  return (
+    <>
+      <Link to="/" onClick={onNavigate} className="font-display text-2xl font-bold p-6 border-b border-sidebar-border block">
+        NOIR<span className="text-gold">.</span>
+        <span className="text-xs text-muted-foreground ml-1 font-sans uppercase tracking-widest">Admin</span>
+      </Link>
+      <nav className="flex-1 overflow-y-auto p-3 space-y-6">
+        {groups.map((g) => (
+          <div key={g.label}>
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground px-3 mb-2 font-semibold">{g.label}</p>
+            <div className="space-y-0.5">
+              {g.items.map((i) => (
+                <NavLink key={i.to} to={i.to} end={(i as any).end} onClick={onNavigate}
+                  className={({ isActive }) => cn("flex items-center gap-3 px-3 py-2 text-sm rounded-md",
+                    isActive ? "bg-gold text-gold-foreground font-semibold"
+                      : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground")}>
+                  <i.icon className="h-4 w-4" /> {i.label}
+                </NavLink>
+              ))}
+            </div>
+          </div>
+        ))}
+      </nav>
+    </>
+  );
+}
+
 export function AdminLayout() {
   const { resolved, setTheme } = useTheme();
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="min-h-screen flex bg-background">
+      {/* Desktop sidebar */}
       <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
-        <Link to="/" className="font-display text-2xl font-bold p-6 border-b border-sidebar-border">
-          NOIR<span className="text-gold">.</span><span className="text-xs text-muted-foreground ml-1 font-sans uppercase tracking-widest">Admin</span>
-        </Link>
-        <nav className="flex-1 overflow-y-auto p-3 space-y-6">
-          {groups.map((g) => (
-            <div key={g.label}>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground px-3 mb-2 font-semibold">{g.label}</p>
-              <div className="space-y-0.5">
-                {g.items.map((i) => (
-                  <NavLink key={i.to} to={i.to} end={(i as any).end}
-                    className={({ isActive }) => cn("flex items-center gap-3 px-3 py-2 text-sm rounded-md",
-                      isActive ? "bg-gold text-gold-foreground font-semibold" : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground")}>
-                    <i.icon className="h-4 w-4" /> {i.label}
-                  </NavLink>
-                ))}
-              </div>
-            </div>
-          ))}
-        </nav>
+        <SidebarContent />
       </aside>
+
+      {/* Mobile drawer */}
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetContent side="left" className="p-0 w-72 bg-sidebar text-sidebar-foreground border-sidebar-border flex flex-col">
+          <SidebarContent onNavigate={() => setOpen(false)} />
+        </SheetContent>
+      </Sheet>
+
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="sticky top-0 z-20 h-16 border-b border-border bg-background/80 backdrop-blur-xl flex items-center justify-between px-4 md:px-6 gap-4">
+        <header className="sticky top-0 z-20 h-16 border-b border-border bg-background/80 backdrop-blur-xl flex items-center justify-between px-4 md:px-6 gap-3">
+          <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(true)}>
+            <MenuIcon className="h-5 w-5" />
+          </Button>
           <div className="relative flex-1 max-w-md hidden md:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Search anything..." className="pl-9 h-9" />
