@@ -105,7 +105,7 @@ export function ProductForm() {
   const existing = editing ? products.find((p) => p.id === id) : undefined;
 
   const [sizes, setSizes] = useState<string[]>(existing?.sizes ?? ["S", "M", "L", "XL"]);
-  const [colors, setColors] = useState<string[]>(existing?.colors ?? ["Black", "White"]);
+  const [colors, setColors] = useState<string[]>(existing?.colors?.map((c) => c.name) ?? ["Black", "White"]);
   const [tags, setTags] = useState<string[]>(["new", "trending"]);
   const [variants, setVariants] = useState([
     { sku: "SKU-001", size: "M", color: "Black", price: existing?.price ?? 89, stock: 24 },
