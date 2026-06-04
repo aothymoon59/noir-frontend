@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
-  ArrowLeft, Save, Trash2, Plus, X, Upload, Image as ImageIcon,
+  ArrowLeft, Save, Trash2, Plus, X, Upload,
   Tag, Calendar, Percent, Package, Truck, MapPin, Mail, Phone,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -24,7 +24,7 @@ function FormHeader({ title, sub, onSave, onDelete, backTo }: {
   title: string; sub?: string; onSave?: () => void; onDelete?: () => void; backTo: string;
 }) {
   return (
-    <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
+    <div className="sticky top-16 z-10 -mx-3 mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-border bg-background/90 px-3 py-3 backdrop-blur-xl sm:static sm:mx-0 sm:mb-6 sm:border-0 sm:bg-transparent sm:p-0">
       <div className="flex items-center gap-3">
         <Button asChild variant="ghost" size="icon"><Link to={backTo}><ArrowLeft className="h-4 w-4" /></Link></Button>
         <div>
@@ -32,17 +32,17 @@ function FormHeader({ title, sub, onSave, onDelete, backTo }: {
           {sub && <p className="text-sm text-muted-foreground mt-0.5">{sub}</p>}
         </div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex w-full gap-2 sm:w-auto">
         {onDelete && <Button variant="outline" onClick={onDelete}><Trash2 className="h-3.5 w-3.5 mr-1.5" /> Delete</Button>}
-        <Button onClick={onSave}><Save className="h-3.5 w-3.5 mr-1.5" /> Save</Button>
+        <Button onClick={onSave} className="flex-1 sm:flex-none"><Save className="h-3.5 w-3.5 mr-1.5" /> Save</Button>
       </div>
     </div>
   );
 }
 
-function Card({ title, children, sub }: { title: string; sub?: string; children: React.ReactNode }) {
+function Card({ title, children, sub }: { title: string; sub?: string; children: ReactNode }) {
   return (
-    <div className="bg-card border border-border rounded-xl p-5 md:p-6">
+    <div className="bg-card border border-border rounded-lg p-4 md:p-6">
       <div className="mb-4">
         <h2 className="font-display font-semibold text-lg">{title}</h2>
         {sub && <p className="text-xs text-muted-foreground mt-0.5">{sub}</p>}
@@ -52,7 +52,7 @@ function Card({ title, children, sub }: { title: string; sub?: string; children:
   );
 }
 
-function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
   return (
     <div className="space-y-1.5">
       <Label className="text-xs uppercase tracking-wider font-semibold">{label}</Label>
@@ -169,13 +169,13 @@ export function ProductForm() {
             <Separator />
             <div className="space-y-2">
               {variants.map((v, i) => (
-                <div key={i} className="grid grid-cols-12 gap-2 items-end">
-                  <div className="col-span-3"><Field label="SKU"><Input defaultValue={v.sku} /></Field></div>
-                  <div className="col-span-2"><Field label="Size"><Input defaultValue={v.size} /></Field></div>
-                  <div className="col-span-2"><Field label="Color"><Input defaultValue={v.color} /></Field></div>
-                  <div className="col-span-2"><Field label="Price"><Input type="number" defaultValue={v.price} /></Field></div>
-                  <div className="col-span-2"><Field label="Stock"><Input type="number" defaultValue={v.stock} /></Field></div>
-                  <Button variant="ghost" size="icon" onClick={() => setVariants(variants.filter((_, j) => j !== i))}>
+                <div key={i} className="grid gap-2 rounded-lg border border-border p-3 sm:grid-cols-2 xl:grid-cols-12 xl:items-end">
+                  <div className="xl:col-span-3"><Field label="SKU"><Input defaultValue={v.sku} /></Field></div>
+                  <div className="xl:col-span-2"><Field label="Size"><Input defaultValue={v.size} /></Field></div>
+                  <div className="xl:col-span-2"><Field label="Color"><Input defaultValue={v.color} /></Field></div>
+                  <div className="xl:col-span-2"><Field label="Price"><Input type="number" defaultValue={v.price} /></Field></div>
+                  <div className="xl:col-span-2"><Field label="Stock"><Input type="number" defaultValue={v.stock} /></Field></div>
+                  <Button variant="ghost" size="icon" className="justify-self-end xl:justify-self-auto" onClick={() => setVariants(variants.filter((_, j) => j !== i))}>
                     <Trash2 className="h-3.5 w-3.5" />
                   </Button>
                 </div>
@@ -233,6 +233,21 @@ export function ProductForm() {
               </Select>
             </Field>
             <Field label="Collections"><ChipInput values={["Summer 25"]} setValues={() => {}} placeholder="Add collection" /></Field>
+          </Card>
+
+          <Card title="Attributes">
+            <Field label="Fabric">
+              <Select defaultValue={existing?.fabric ?? "Cotton"}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {["Cotton", "Linen", "Silk", "Wool", "Denim", "Polyester", "Cashmere"].map((f) => (
+                    <SelectItem key={f} value={f}>{f}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field label="Fit"><Input placeholder="Regular, relaxed, slim" /></Field>
+            <Field label="Care"><Input placeholder="Machine wash cold" /></Field>
           </Card>
 
           <Card title="Inventory">

@@ -1,15 +1,23 @@
 import { useState } from "react";
-import { products, orders, megaMenu, blogPosts, featuredCategories } from "@/lib/mock-data";
+import { Link } from "react-router-dom";
+import { products, orders, megaMenu, blogPosts, featuredCategories, type MenuNode } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Search, Plus, MoreHorizontal, Edit, Trash2, Filter, Download,
-  Image as ImageIcon, ChevronRight,
+  Image as ImageIcon, ChevronRight, GripVertical, Eye, Save, Link as LinkIcon,
+  Menu as MenuIcon, Layers, Navigation, CircleDot,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader,
+  DialogTitle, DialogTrigger,
+} from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
 
 function PageHeader({ title, sub, action }: { title: string; sub?: string; action?: React.ReactNode }) {
   return (
@@ -40,7 +48,7 @@ export function AdminProducts() {
   return (
     <div>
       <PageHeader title="Products" sub={`${products.length} total products`}
-        action={<Button><Plus className="h-3.5 w-3.5 mr-1.5" /> Add product</Button>} />
+        action={<Button asChild><Link to="/admin/products/new"><Plus className="h-3.5 w-3.5 mr-1.5" /> Add product</Link></Button>} />
       <Toolbar />
       <div className="bg-card border border-border rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
@@ -68,7 +76,7 @@ export function AdminProducts() {
                   <td className="p-4 font-semibold">${p.price}</td>
                   <td className="p-4"><span className={cn("text-xs px-2 py-0.5 rounded-full", p.inStock ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive")}>{p.inStock ? "Active" : "Sold out"}</span></td>
                   <td className="p-4 text-right">
-                    <Button variant="ghost" size="icon"><Edit className="h-3.5 w-3.5" /></Button>
+                    <Button asChild variant="ghost" size="icon"><Link to={`/admin/products/${p.id}/edit`}><Edit className="h-3.5 w-3.5" /></Link></Button>
                     <Button variant="ghost" size="icon"><Trash2 className="h-3.5 w-3.5" /></Button>
                   </td>
                 </tr>
@@ -144,7 +152,7 @@ export function AdminCategories() {
   return (
     <div>
       <PageHeader title="Categories" sub="Manage nested categories with drag & drop"
-        action={<Button><Plus className="h-3.5 w-3.5 mr-1.5" /> Add category</Button>} />
+        action={<Button asChild><Link to="/admin/categories/new"><Plus className="h-3.5 w-3.5 mr-1.5" /> Add category</Link></Button>} />
       <div className="bg-card border border-border rounded-xl p-3">
         {megaMenu.map((n) => <CategoryNode key={n.href} node={n} />)}
       </div>
@@ -185,7 +193,7 @@ export function AdminCoupons() {
   ];
   return (
     <div>
-      <PageHeader title="Coupons" action={<Button><Plus className="h-3.5 w-3.5 mr-1.5" /> Create coupon</Button>} />
+      <PageHeader title="Coupons" action={<Button asChild><Link to="/admin/coupons/new"><Plus className="h-3.5 w-3.5 mr-1.5" /> Create coupon</Link></Button>} />
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {coupons.map((c) => (
           <div key={c.code} className="bg-card border border-border rounded-xl p-5 relative overflow-hidden">
@@ -208,7 +216,7 @@ export function AdminCoupons() {
 export function AdminBlogs() {
   return (
     <div>
-      <PageHeader title="Blog posts" action={<Button><Plus className="h-3.5 w-3.5 mr-1.5" /> New post</Button>} />
+      <PageHeader title="Blog posts" action={<Button asChild><Link to="/admin/blogs/new"><Plus className="h-3.5 w-3.5 mr-1.5" /> New post</Link></Button>} />
       <div className="grid md:grid-cols-2 gap-4">
         {blogPosts.map((b) => (
           <div key={b.id} className="flex gap-4 bg-card border border-border rounded-xl p-4">
@@ -230,12 +238,12 @@ export function AdminPages() {
   const pages = ["About Us", "Contact", "Privacy Policy", "Return Policy", "FAQ", "Shipping Policy"];
   return (
     <div>
-      <PageHeader title="Pages CMS" action={<Button><Plus className="h-3.5 w-3.5 mr-1.5" /> New page</Button>} />
+      <PageHeader title="Pages CMS" action={<Button asChild><Link to="/admin/pages/new"><Plus className="h-3.5 w-3.5 mr-1.5" /> New page</Link></Button>} />
       <div className="bg-card border border-border rounded-xl divide-y divide-border">
         {pages.map((p) => (
           <div key={p} className="flex items-center justify-between p-4 hover:bg-muted/30">
             <div><p className="font-medium">{p}</p><p className="text-xs text-muted-foreground">/{p.toLowerCase().replace(/\s+/g, "-")}</p></div>
-            <div><Button size="sm" variant="outline"><Edit className="h-3 w-3 mr-1.5" /> Edit</Button></div>
+            <div><Button asChild size="sm" variant="outline"><Link to="/admin/pages/1/edit"><Edit className="h-3 w-3 mr-1.5" /> Edit</Link></Button></div>
           </div>
         ))}
       </div>
@@ -247,7 +255,7 @@ export function AdminBrands() {
   const brands = ["Atelier 9", "Noir & Co", "Maison Lux", "Veluxe", "Studio Ren", "Ember"];
   return (
     <div>
-      <PageHeader title="Brands" action={<Button><Plus className="h-3.5 w-3.5 mr-1.5" /> Add brand</Button>} />
+      <PageHeader title="Brands" action={<Button asChild><Link to="/admin/brands/new"><Plus className="h-3.5 w-3.5 mr-1.5" /> Add brand</Link></Button>} />
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {brands.map((b) => (
           <div key={b} className="bg-card border border-border rounded-xl p-6 text-center">
@@ -262,14 +270,260 @@ export function AdminBrands() {
 }
 
 export function AdminMenus() {
+  const [items, setItems] = useState<MenuNode[]>(megaMenu);
+  const [selectedHref, setSelectedHref] = useState(megaMenu[0]?.href ?? "");
+  const [draft, setDraft] = useState({ label: "", href: "", parent: "root" });
+
+  const selected = findMenuNode(items, selectedHref) ?? items[0];
+  const totalItems = countMenuItems(items);
+  const maxDepth = getMenuDepth(items);
+
+  const addMenuItem = () => {
+    if (!draft.label.trim()) return;
+
+    const href = draft.href.trim() || `/category/${draft.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+    const nextItem: MenuNode = { label: draft.label.trim(), href };
+
+    if (draft.parent === "root") {
+      setItems([...items, nextItem]);
+    } else {
+      setItems(addChildMenuItem(items, draft.parent, nextItem));
+    }
+
+    setSelectedHref(href);
+    setDraft({ label: "", href: "", parent: "root" });
+  };
+
   return (
     <div>
-      <PageHeader title="Menus" sub="Manage your navigation structure" />
-      <div className="bg-card border border-border rounded-xl p-3">
-        {megaMenu.map((n) => <CategoryNode key={n.href} node={n} />)}
+      <PageHeader
+        title="Menus"
+        sub="Build unlimited nested storefront navigation with mock data"
+        action={
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button><Plus className="h-3.5 w-3.5 mr-1.5" /> Add menu item</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add menu item</DialogTitle>
+                <DialogDescription>Create a top-level item or nest it under any existing menu link.</DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="space-y-1.5">
+                  <Label>Menu label</Label>
+                  <Input value={draft.label} onChange={(e) => setDraft({ ...draft, label: e.target.value })} placeholder="Blazers" />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>URL</Label>
+                  <Input value={draft.href} onChange={(e) => setDraft({ ...draft, href: e.target.value })} placeholder="/category/women/blazers" />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Parent</Label>
+                  <Select value={draft.parent} onValueChange={(parent) => setDraft({ ...draft, parent })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="root">Top level</SelectItem>
+                      {flattenMenu(items).map((item) => (
+                        <SelectItem key={item.href} value={item.href}>
+                          {"- ".repeat(item.depth)}{item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button onClick={addMenuItem}><Save className="h-3.5 w-3.5 mr-1.5" /> Add item</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        }
+      />
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {[
+          { label: "Menu items", value: totalItems, icon: MenuIcon },
+          { label: "Top level", value: items.length, icon: Navigation },
+          { label: "Nested depth", value: maxDepth, icon: Layers },
+        ].map(({ label, value, icon: Icon }) => (
+          <div key={label} className="rounded-lg border border-border bg-card p-4">
+            <div className="flex items-center justify-between">
+              <p className="text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
+              <Icon className="h-4 w-4 text-gold" />
+            </div>
+            <p className="mt-2 font-display text-3xl font-bold">{value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_380px]">
+        <div className="rounded-lg border border-border bg-card">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
+            <div>
+              <h2 className="font-display text-lg font-semibold">Primary mega menu</h2>
+              <p className="text-xs text-muted-foreground">Use the handle for future drag-and-drop ordering, then click an item to edit.</p>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm"><Eye className="h-3.5 w-3.5 mr-1.5" /> Preview</Button>
+              <Button size="sm"><Save className="h-3.5 w-3.5 mr-1.5" /> Save mock</Button>
+            </div>
+          </div>
+          <div className="p-3">
+            {items.map((item) => (
+              <MenuBuilderNode
+                key={item.href}
+                node={item}
+                selectedHref={selectedHref}
+                onSelect={setSelectedHref}
+              />
+            ))}
+          </div>
+        </div>
+
+        <aside className="space-y-6">
+          <div className="rounded-lg border border-border bg-card p-5">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <h2 className="font-display text-lg font-semibold">Item settings</h2>
+                <p className="text-xs text-muted-foreground">Mock edit state for the selected menu item.</p>
+              </div>
+              <Badge variant="secondary">{selected?.children?.length ?? 0} child</Badge>
+            </div>
+            {selected ? (
+              <div className="space-y-4">
+                <div className="space-y-1.5">
+                  <Label>Navigation label</Label>
+                  <Input value={selected.label} readOnly />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Link target</Label>
+                  <div className="relative">
+                    <LinkIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input value={selected.href} readOnly className="pl-9" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between rounded-md bg-muted/40 p-3">
+                  <div>
+                    <p className="text-sm font-medium">Show in storefront</p>
+                    <p className="text-xs text-muted-foreground">Visible in header mega menu</p>
+                  </div>
+                  <Switch defaultChecked />
+                </div>
+                <div className="flex items-center justify-between rounded-md bg-muted/40 p-3">
+                  <div>
+                    <p className="text-sm font-medium">Featured column</p>
+                    <p className="text-xs text-muted-foreground">Highlight this branch in the menu panel</p>
+                  </div>
+                  <Switch defaultChecked={selected.featured} />
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">Select a menu item to edit.</p>
+            )}
+          </div>
+
+          <div className="rounded-lg border border-border bg-card p-5">
+            <h2 className="font-display text-lg font-semibold">How to add more menus</h2>
+            <div className="mt-3 space-y-3 text-sm text-muted-foreground">
+              <p>Click <span className="font-medium text-foreground">Add menu item</span>, enter label and URL, then choose a parent.</p>
+              <p>For now this is mock local state. To permanently add defaults, update <span className="font-mono text-foreground">megaMenu</span> in <span className="font-mono text-foreground">src/lib/mock-data.ts</span>.</p>
+              <p>Later with RTK Query, save this same tree shape from your Menus API.</p>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   );
+}
+
+function MenuBuilderNode({
+  node,
+  depth = 0,
+  selectedHref,
+  onSelect,
+}: {
+  node: MenuNode;
+  depth?: number;
+  selectedHref: string;
+  onSelect: (href: string) => void;
+}) {
+  const active = selectedHref === node.href;
+
+  return (
+    <div className="min-w-0 space-y-1">
+      <div
+        className={cn(
+          "flex w-full min-w-0 items-center gap-2 rounded-md border py-2 pr-2 transition-colors",
+          active ? "border-gold bg-gold/10" : "border-transparent hover:border-border hover:bg-muted/40",
+        )}
+        style={{ paddingLeft: 12 + depth * 20 }}
+      >
+        <button
+          type="button"
+          onClick={() => onSelect(node.href)}
+          className="flex min-w-0 flex-1 items-center gap-3 text-left"
+        >
+          <GripVertical className="h-4 w-4 shrink-0 text-muted-foreground" />
+          {node.children?.length ? (
+            <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+          ) : (
+            <CircleDot className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+          )}
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-sm font-medium">{node.label}</span>
+            <span className="block truncate text-xs text-muted-foreground">{node.href}</span>
+          </span>
+        </button>
+        <div className="flex shrink-0 items-center gap-1">
+          <Badge variant="outline" className="min-w-8 justify-center">{node.children?.length ?? 0}</Badge>
+          <Button variant="ghost" size="icon" className="h-7 w-7">
+            <Edit className="h-3.5 w-3.5" />
+          </Button>
+          <Button variant="ghost" size="icon" className="h-7 w-7">
+            <Trash2 className="h-3.5 w-3.5" />
+          </Button>
+        </div>
+      </div>
+      {node.children?.map((child) => (
+        <MenuBuilderNode key={child.href} node={child} depth={depth + 1} selectedHref={selectedHref} onSelect={onSelect} />
+      ))}
+    </div>
+  );
+}
+
+function flattenMenu(nodes: MenuNode[], depth = 0): Array<MenuNode & { depth: number }> {
+  return nodes.flatMap((node) => [
+    { ...node, depth },
+    ...flattenMenu(node.children ?? [], depth + 1),
+  ]);
+}
+
+function findMenuNode(nodes: MenuNode[], href: string): MenuNode | undefined {
+  for (const node of nodes) {
+    if (node.href === href) return node;
+    const child = findMenuNode(node.children ?? [], href);
+    if (child) return child;
+  }
+  return undefined;
+}
+
+function addChildMenuItem(nodes: MenuNode[], parentHref: string, item: MenuNode): MenuNode[] {
+  return nodes.map((node) => {
+    if (node.href === parentHref) {
+      return { ...node, children: [...(node.children ?? []), item] };
+    }
+    return { ...node, children: addChildMenuItem(node.children ?? [], parentHref, item) };
+  });
+}
+
+function countMenuItems(nodes: MenuNode[]): number {
+  return nodes.reduce((total, node) => total + 1 + countMenuItems(node.children ?? []), 0);
+}
+
+function getMenuDepth(nodes: MenuNode[], depth = 1): number {
+  if (!nodes.length) return 0;
+  return Math.max(...nodes.map((node) => getMenuDepth(node.children ?? [], depth + 1)), depth);
 }
 
 export function AdminMedia() {
