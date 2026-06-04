@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { App } from "@/App";
+import { ClientOnlyApp } from "@/components/ClientOnlyApp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -8,5 +8,5 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Tailored silhouettes, luxe fabrics, and obsessive craft. Discover pieces designed to outlast trends." },
     ],
   }),
-  component: App,
+  component: ClientOnlyApp,
 });
