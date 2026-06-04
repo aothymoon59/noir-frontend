@@ -206,7 +206,7 @@
 
 @utility no-scrollbar {
   scrollbar-width: none;
-}
-@utility no-scrollbar::-webkit-scrollbar {
-  display: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
