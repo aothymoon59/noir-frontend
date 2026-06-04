@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { App } from "@/App";
+import { RouterProvider } from "react-router-dom";
+import { router } from "@/router";
 
 export function ClientOnlyApp() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
-  return <App />;
+  return <RouterProvider router={router} />;
 }
