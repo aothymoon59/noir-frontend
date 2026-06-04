@@ -152,7 +152,7 @@ export function ProductForm() {
           <Card title="Pricing">
             <div className="grid sm:grid-cols-3 gap-4">
               <Field label="Price"><Input type="number" defaultValue={existing?.price} placeholder="0.00" /></Field>
-              <Field label="Compare at" hint="Strike-through"><Input type="number" defaultValue={existing?.compareAt} placeholder="0.00" /></Field>
+              <Field label="Compare at" hint="Strike-through"><Input type="number" defaultValue={existing?.comparePrice} placeholder="0.00" /></Field>
               <Field label="Cost per item"><Input type="number" placeholder="0.00" /></Field>
             </div>
             <div className="flex items-center justify-between p-3 rounded-md bg-muted/40">
