@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Search,
   ShoppingBag,
@@ -17,11 +17,7 @@ import { useCart, useWishlist, useTheme } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 function NestedMenu({ nodes, depth = 0 }: { nodes: MenuNode[]; depth?: number }) {
   return (
@@ -105,6 +101,7 @@ function MobileMenuItem({ node, depth = 0 }: { node: MenuNode; depth?: number })
 }
 
 export function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { count } = useCart();
   const { items: wish } = useWishlist();
   const { resolved, setTheme } = useTheme();
@@ -113,6 +110,11 @@ export function Header() {
   const navigate = useNavigate();
   const loc = useLocation();
   const isAdmin = loc.pathname.startsWith("/admin");
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [loc.pathname]);
+
   if (isAdmin) return null;
 
   const onSearch = (e: React.FormEvent) => {
@@ -127,37 +129,64 @@ export function Header() {
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
       {/* Announcement */}
       <div className="bg-foreground text-background text-center px-3 py-2 text-[11px] sm:text-xs tracking-wider uppercase">
-        Free shipping on orders over $99 · <span className="text-gold">Holiday sale up to 40% off</span>
+        Free shipping on orders over $99 ·{" "}
+        <span className="text-gold">Holiday sale up to 40% off</span>
       </div>
 
       <div className="container mx-auto px-4">
         <div className="flex min-w-0 items-center justify-between gap-2 h-16 md:h-20">
           {/* Mobile menu */}
-          <Sheet>
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="h-9 w-9 lg:hidden">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
+
             <SheetContent side="left" className="w-[min(20rem,calc(100vw-2rem))] overflow-y-auto">
               <div className="font-display text-2xl font-bold mb-6">
                 NOIR<span className="text-gold">.</span>
               </div>
+
               <div className="space-y-1">
-                {megaMenu.map((n) => (
-                  <MobileMenuItem key={n.href} node={n} />
+                {megaMenu.map((node) => (
+                  <MobileMenuItem key={node.href} node={node} />
                 ))}
               </div>
+
               <div className="mt-6 pt-6 border-t border-border space-y-2">
-                <Link to="/blog" className="block py-2 text-sm">Blog</Link>
-                <Link to="/about" className="block py-2 text-sm">About</Link>
-                <Link to="/contact" className="block py-2 text-sm">Contact</Link>
+                <Link
+                  to="/blog"
+                  className="block py-2 text-sm"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Blog
+                </Link>
+
+                <Link
+                  to="/about"
+                  className="block py-2 text-sm"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  About
+                </Link>
+
+                <Link
+                  to="/contact"
+                  className="block py-2 text-sm"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Contact
+                </Link>
               </div>
             </SheetContent>
           </Sheet>
 
           {/* Logo */}
-          <Link to="/" className="font-display text-2xl md:text-3xl font-bold tracking-tight shrink-0">
+          <Link
+            to="/"
+            className="font-display text-2xl md:text-3xl font-bold tracking-tight shrink-0"
+          >
             NOIR<span className="text-gold">.</span>
           </Link>
 
@@ -175,14 +204,22 @@ export function Header() {
                 <MegaPanel node={n} />
               </div>
             ))}
-            <Link to="/blog" className="px-4 py-2 text-sm font-medium uppercase tracking-wider hover:text-gold transition-colors">
+            <Link
+              to="/blog"
+              className="px-4 py-2 text-sm font-medium uppercase tracking-wider hover:text-gold transition-colors"
+            >
               Journal
             </Link>
           </nav>
 
           {/* Actions */}
           <div className="flex shrink-0 items-center gap-0 sm:gap-1">
-            <Button variant="ghost" size="icon" className="h-9 w-9 sm:h-10 sm:w-10" onClick={() => setSearchOpen(!searchOpen)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 sm:h-10 sm:w-10"
+              onClick={() => setSearchOpen(!searchOpen)}
+            >
               <Search className="h-5 w-5" />
             </Button>
             <Button
@@ -194,10 +231,14 @@ export function Header() {
               {resolved === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
             <Link to="/dashboard" className="hidden sm:block">
-              <Button variant="ghost" size="icon"><User className="h-5 w-5" /></Button>
+              <Button variant="ghost" size="icon">
+                <User className="h-5 w-5" />
+              </Button>
             </Link>
             <Link to="/wishlist" className="relative hidden sm:block">
-              <Button variant="ghost" size="icon"><Heart className="h-5 w-5" /></Button>
+              <Button variant="ghost" size="icon">
+                <Heart className="h-5 w-5" />
+              </Button>
               {wish.length > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 bg-gold text-gold-foreground text-[10px] font-bold rounded-full h-4 min-w-4 px-1 flex items-center justify-center">
                   {wish.length}
@@ -205,7 +246,9 @@ export function Header() {
               )}
             </Link>
             <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="h-9 w-9 sm:h-10 sm:w-10"><ShoppingBag className="h-5 w-5" /></Button>
+              <Button variant="ghost" size="icon" className="h-9 w-9 sm:h-10 sm:w-10">
+                <ShoppingBag className="h-5 w-5" />
+              </Button>
               {count > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 bg-gold text-gold-foreground text-[10px] font-bold rounded-full h-4 min-w-4 px-1 flex items-center justify-center">
                   {count}
@@ -226,7 +269,11 @@ export function Header() {
                 onChange={(e) => setQ(e.target.value)}
                 className="pl-11 h-12 text-base"
               />
-              <button type="button" onClick={() => setSearchOpen(false)} className="absolute right-3 top-1/2 -translate-y-1/2 p-1">
+              <button
+                type="button"
+                onClick={() => setSearchOpen(false)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1"
+              >
                 <X className="h-4 w-4" />
               </button>
             </div>
