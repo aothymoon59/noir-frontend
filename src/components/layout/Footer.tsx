@@ -9,8 +9,8 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-card mt-24">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10">
-          <div className="col-span-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10">
+          <div className="sm:col-span-2">
             <div className="font-display text-3xl font-bold mb-4">
               NOIR<span className="text-gold">.</span>
             </div>
@@ -53,7 +53,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <p className="text-xs text-muted-foreground">© 2025 NOIR. All rights reserved.</p>
           <p className="text-xs text-muted-foreground">Crafted with intention in Dhaka · Milan · NYC</p>
         </div>

@@ -16,8 +16,8 @@ export function ProductCard({ p, view = "grid" }: { p: Product; view?: "grid" | 
 
   if (view === "list") {
     return (
-      <div className="group flex gap-4 md:gap-6 p-3 md:p-4 border border-border rounded-xl hover:border-gold/40 transition-all">
-        <Link to={`/product/${p.slug}`} className="shrink-0 w-32 md:w-48 aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+      <div className="group flex min-w-0 gap-3 md:gap-6 p-3 md:p-4 border border-border rounded-xl hover:border-gold/40 transition-all">
+        <Link to={`/product/${p.slug}`} className="shrink-0 w-24 sm:w-32 md:w-48 aspect-[4/5] overflow-hidden rounded-lg bg-muted">
           <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         </Link>
         <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
@@ -32,7 +32,7 @@ export function ProductCard({ p, view = "grid" }: { p: Product; view?: "grid" | 
             </div>
             <p className="text-sm text-muted-foreground mt-2 line-clamp-2 hidden md:block">{p.description}</p>
           </div>
-          <div className="flex items-end justify-between mt-3">
+          <div className="flex flex-wrap items-end justify-between gap-2 mt-3">
             <div>
               <span className="font-display text-lg font-bold">${p.price}</span>
               {p.comparePrice && <span className="text-sm text-muted-foreground line-through ml-2">${p.comparePrice}</span>}

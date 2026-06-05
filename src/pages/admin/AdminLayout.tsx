@@ -106,7 +106,7 @@ export function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen bg-muted/25 lg:flex">
+    <div className="min-h-screen min-w-0 overflow-x-hidden bg-muted/25 lg:flex">
       {/* Desktop sidebar */}
       <aside className={cn("sticky top-0 hidden h-screen shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-[width] duration-200 lg:flex", collapsed ? "w-20" : "w-72")}>
         <SidebarContent collapsed={collapsed} />
@@ -114,7 +114,7 @@ export function AdminLayout() {
 
       {/* Mobile drawer */}
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="left" className="p-0 w-80 bg-sidebar text-sidebar-foreground border-sidebar-border flex flex-col">
+        <SheetContent side="left" className="p-0 w-[min(20rem,calc(100vw-2rem))] bg-sidebar text-sidebar-foreground border-sidebar-border flex flex-col">
           <SidebarContent onNavigate={() => setOpen(false)} />
         </SheetContent>
       </Sheet>

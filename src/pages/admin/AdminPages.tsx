@@ -33,8 +33,8 @@ function PageHeader({ title, sub, action }: { title: string; sub?: string; actio
 
 function Toolbar() {
   return (
-    <div className="flex items-center gap-2 mb-4">
-      <div className="relative flex-1 max-w-sm">
+    <div className="flex flex-wrap items-center gap-2 mb-4">
+      <div className="relative min-w-48 flex-1 max-w-sm">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input placeholder="Search..." className="pl-9 h-9" />
       </div>

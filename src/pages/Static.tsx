@@ -13,8 +13,8 @@ export function About() {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         <div className="relative container mx-auto px-4 h-full flex items-end pb-16">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-gold mb-2">About us</p>
-            <h1 className="font-display text-5xl md:text-7xl font-bold max-w-2xl">Craft meets <span className="text-gradient-gold">contemporary</span></h1>
+            <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-2">About us</p>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-bold max-w-2xl">Craft meets <span className="text-gradient-gold">contemporary</span></h1>
           </div>
         </div>
       </section>
@@ -51,7 +51,7 @@ export function Contact() {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
-        <p className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Get in touch</p>
+        <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-2">Get in touch</p>
         <h1 className="font-display text-4xl md:text-6xl font-bold">Contact Us</h1>
       </div>
       <div className="grid lg:grid-cols-3 gap-6 mb-12">
@@ -93,7 +93,7 @@ export function FAQ() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-3xl">
       <div className="text-center mb-10">
-        <p className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Help center</p>
+        <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-2">Help center</p>
         <h1 className="font-display text-4xl md:text-5xl font-bold">Frequently Asked Questions</h1>
       </div>
       <Accordion type="single" collapsible className="bg-card border border-border rounded-xl">

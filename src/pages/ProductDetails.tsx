@@ -23,22 +23,22 @@ export default function ProductDetails() {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <nav className="flex items-center gap-1 text-xs text-muted-foreground mb-6">
+      <nav className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground mb-6">
         <Link to="/" className="hover:text-gold">Home</Link><ChevronRight className="h-3 w-3" />
         <Link to={`/category/${p.category}`} className="hover:text-gold capitalize">{p.category}</Link><ChevronRight className="h-3 w-3" />
         <span className="text-foreground">{p.name}</span>
       </nav>
 
-      <div className="grid lg:grid-cols-2 gap-8 lg:gap-14">
+      <div className="grid min-w-0 lg:grid-cols-2 gap-8 lg:gap-14">
         {/* Gallery */}
-        <div className="flex gap-3">
-          <div className="flex flex-col gap-2 w-16 md:w-20">
+        <div className="flex min-w-0 flex-col-reverse gap-3 sm:flex-row">
+          <div className="flex w-full gap-2 overflow-x-auto pb-1 sm:w-16 sm:flex-col sm:overflow-visible sm:pb-0 md:w-20">
             {p.images.map((src, i) => (
-              <button key={i} onClick={() => setImg(i)} className={cn("aspect-square rounded-md overflow-hidden border-2", i === img ? "border-gold" : "border-transparent")}>
+              <button key={i} onClick={() => setImg(i)} className={cn("aspect-square h-16 shrink-0 rounded-md overflow-hidden border-2 sm:h-auto sm:w-full", i === img ? "border-gold" : "border-transparent")}>
                 <img src={src} alt="" className="w-full h-full object-cover" />
               </button>
             ))}
-            <div className="aspect-square rounded-md bg-foreground text-background flex flex-col items-center justify-center text-[10px] cursor-pointer hover:bg-gold hover:text-gold-foreground">
+            <div className="aspect-square h-16 shrink-0 rounded-md bg-foreground text-background flex flex-col items-center justify-center text-[10px] cursor-pointer hover:bg-gold hover:text-gold-foreground sm:h-auto sm:w-full">
               <span className="text-lg">▶</span>VIDEO
             </div>
           </div>
@@ -58,7 +58,7 @@ export default function ProductDetails() {
         <div>
           <p className="text-xs text-gold uppercase tracking-widest">{p.brand}</p>
           <h1 className="font-display text-3xl md:text-4xl font-bold mt-2">{p.name}</h1>
-          <div className="flex items-center gap-3 mt-3">
+          <div className="flex flex-wrap items-center gap-3 mt-3">
             <div className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={cn("h-4 w-4", i < Math.round(p.rating) ? "fill-gold text-gold" : "text-muted")} />)}</div>
             <span className="text-sm text-muted-foreground">{p.rating.toFixed(1)} · {p.reviewCount} reviews</span>
             <span className={cn("text-xs px-2 py-0.5 rounded-full", p.inStock ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive")}>
@@ -66,7 +66,7 @@ export default function ProductDetails() {
             </span>
           </div>
 
-          <div className="flex items-baseline gap-3 mt-6">
+          <div className="flex flex-wrap items-baseline gap-3 mt-6">
             <span className="font-display text-4xl font-bold">${p.price}</span>
             {p.comparePrice && <>
               <span className="text-xl text-muted-foreground line-through">${p.comparePrice}</span>
@@ -117,20 +117,20 @@ export default function ProductDetails() {
             </div>
           </div>
 
-          <div className="mt-6 flex items-center gap-3">
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <div className="flex items-center border border-border rounded-md">
               <button onClick={() => setQty(Math.max(1, qty - 1))} className="h-11 w-11 flex items-center justify-center hover:bg-muted"><Minus className="h-3 w-3" /></button>
               <span className="w-10 text-center text-sm font-semibold">{qty}</span>
               <button onClick={() => setQty(qty + 1)} className="h-11 w-11 flex items-center justify-center hover:bg-muted"><Plus className="h-3 w-3" /></button>
             </div>
-            <Button size="lg" className="flex-1" onClick={() => add(p, { qty, size, color })}>
+            <Button size="lg" className="min-w-48 flex-1" onClick={() => add(p, { qty, size, color })}>
               <ShoppingBag className="h-4 w-4 mr-2" /> Add to cart
             </Button>
             <Button size="lg" variant="outline" onClick={() => toggle(p)}>
               <Heart className={cn("h-4 w-4", has(p.id) && "fill-destructive text-destructive")} />
             </Button>
           </div>
-          <div className="flex gap-3 mt-3">
+          <div className="flex flex-col gap-3 mt-3 sm:flex-row">
             <Button size="lg" variant="secondary" className="flex-1 bg-foreground text-background hover:bg-foreground/90">
               <Zap className="h-4 w-4 mr-2" /> Buy now
             </Button>
@@ -139,7 +139,7 @@ export default function ProductDetails() {
             </Button>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 mt-8 pt-6 border-t border-border">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-8 pt-6 border-t border-border">
             {[{i:Truck,t:"Free shipping",s:"$99+"},{i:RefreshCw,t:"Easy returns",s:"30 days"},{i:Shield,t:"Authenticity",s:"Guaranteed"}].map(({i:Icon,t,s})=>(
               <div key={t} className="text-center">
                 <Icon className="h-5 w-5 text-gold mx-auto mb-1.5" />
@@ -152,7 +152,7 @@ export default function ProductDetails() {
 
       {/* Tabs */}
       <Tabs defaultValue="desc" className="mt-16">
-        <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent">
+        <TabsList className="w-full justify-start overflow-x-auto border-b rounded-none h-auto p-0 bg-transparent">
           {[["desc","Description"],["spec","Specifications"],["size","Size Chart"],["ship","Shipping"],["return","Returns"]].map(([v,l]) => (
             <TabsTrigger key={v} value={v} className="rounded-none border-b-2 border-transparent data-[state=active]:border-gold data-[state=active]:bg-transparent px-5 py-3 font-display uppercase text-xs tracking-wider">
               {l}
@@ -180,14 +180,14 @@ export default function ProductDetails() {
       {/* Frequently bought together */}
       <section className="mt-16">
         <h2 className="font-display text-2xl font-bold mb-6">Frequently bought together</h2>
-        <div className="flex flex-wrap items-center gap-4 bg-card border border-border rounded-xl p-6">
+        <div className="flex flex-wrap items-center gap-4 bg-card border border-border rounded-xl p-4 sm:p-6">
           {fbt.map((x, i) => (
             <div key={x.id} className="flex items-center gap-3">
               <img src={x.images[0]} alt="" className="h-24 w-24 rounded-lg object-cover" />
               {i < fbt.length - 1 && <Plus className="h-4 w-4 text-muted-foreground" />}
             </div>
           ))}
-          <div className="ml-auto text-right">
+          <div className="w-full text-left sm:ml-auto sm:w-auto sm:text-right">
             <p className="text-xs text-muted-foreground">Bundle price</p>
             <p className="font-display text-2xl font-bold">${fbt.reduce((s,x)=>s+x.price,0)}</p>
             <Button className="mt-2">Add all to cart</Button>

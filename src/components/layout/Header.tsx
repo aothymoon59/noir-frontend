@@ -45,8 +45,8 @@ function NestedMenu({ nodes, depth = 0 }: { nodes: MenuNode[]; depth?: number })
 function MegaPanel({ node }: { node: MenuNode }) {
   if (!node.children) return null;
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-      <div className="bg-popover border border-border rounded-xl shadow-2xl p-6 min-w-[680px] grid grid-cols-4 gap-6">
+    <div className="absolute left-1/2 top-full z-50 w-[min(680px,calc(100vw-2rem))] -translate-x-1/2 pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+      <div className="bg-popover border border-border rounded-xl shadow-2xl p-5 grid grid-cols-3 xl:grid-cols-4 gap-5">
         {node.children.map((col) => (
           <div key={col.href}>
             <Link
@@ -126,20 +126,20 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
       {/* Announcement */}
-      <div className="bg-foreground text-background text-center py-2 text-xs tracking-wider uppercase">
+      <div className="bg-foreground text-background text-center px-3 py-2 text-[11px] sm:text-xs tracking-wider uppercase">
         Free shipping on orders over $99 · <span className="text-gold">Holiday sale up to 40% off</span>
       </div>
 
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex min-w-0 items-center justify-between gap-2 h-16 md:h-20">
           {/* Mobile menu */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden">
+              <Button variant="ghost" size="icon" className="h-9 w-9 lg:hidden">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[320px] overflow-y-auto">
+            <SheetContent side="left" className="w-[min(20rem,calc(100vw-2rem))] overflow-y-auto">
               <div className="font-display text-2xl font-bold mb-6">
                 NOIR<span className="text-gold">.</span>
               </div>
@@ -157,7 +157,7 @@ export function Header() {
           </Sheet>
 
           {/* Logo */}
-          <Link to="/" className="font-display text-2xl md:text-3xl font-bold tracking-tight">
+          <Link to="/" className="font-display text-2xl md:text-3xl font-bold tracking-tight shrink-0">
             NOIR<span className="text-gold">.</span>
           </Link>
 
@@ -181,21 +181,22 @@ export function Header() {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" onClick={() => setSearchOpen(!searchOpen)}>
+          <div className="flex shrink-0 items-center gap-0 sm:gap-1">
+            <Button variant="ghost" size="icon" className="h-9 w-9 sm:h-10 sm:w-10" onClick={() => setSearchOpen(!searchOpen)}>
               <Search className="h-5 w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
+              className="h-9 w-9 sm:h-10 sm:w-10"
               onClick={() => setTheme(resolved === "dark" ? "light" : "dark")}
             >
               {resolved === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
-            <Link to="/dashboard">
+            <Link to="/dashboard" className="hidden sm:block">
               <Button variant="ghost" size="icon"><User className="h-5 w-5" /></Button>
             </Link>
-            <Link to="/wishlist" className="relative">
+            <Link to="/wishlist" className="relative hidden sm:block">
               <Button variant="ghost" size="icon"><Heart className="h-5 w-5" /></Button>
               {wish.length > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 bg-gold text-gold-foreground text-[10px] font-bold rounded-full h-4 min-w-4 px-1 flex items-center justify-center">
@@ -204,7 +205,7 @@ export function Header() {
               )}
             </Link>
             <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon"><ShoppingBag className="h-5 w-5" /></Button>
+              <Button variant="ghost" size="icon" className="h-9 w-9 sm:h-10 sm:w-10"><ShoppingBag className="h-5 w-5" /></Button>
               {count > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 bg-gold text-gold-foreground text-[10px] font-bold rounded-full h-4 min-w-4 px-1 flex items-center justify-center">
                   {count}

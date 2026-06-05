@@ -27,21 +27,21 @@ export default function Cart() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="font-display text-3xl md:text-5xl font-bold mb-8">Shopping Cart</h1>
-      <div className="grid lg:grid-cols-[1fr_400px] gap-8">
+      <div className="grid min-w-0 lg:grid-cols-[minmax(0,1fr)_minmax(320px,400px)] gap-8">
         <div className="space-y-3">
           {items.map((it) => (
-            <div key={it.id} className="flex gap-4 p-4 border border-border rounded-xl">
-              <img src={it.product.images[0]} alt={it.product.name} className="w-24 h-32 md:w-28 md:h-36 rounded-lg object-cover" />
+            <div key={it.id} className="flex flex-col gap-4 p-4 border border-border rounded-xl sm:flex-row">
+              <img src={it.product.images[0]} alt={it.product.name} className="w-full h-48 rounded-lg object-cover sm:h-32 sm:w-24 md:w-28 md:h-36" />
               <div className="flex-1 min-w-0">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider">{it.product.brand}</p>
                 <Link to={`/product/${it.product.slug}`}>
                   <h3 className="font-display font-semibold mt-1 hover:text-gold">{it.product.name}</h3>
                 </Link>
-                <div className="flex gap-3 text-xs text-muted-foreground mt-1">
+                <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mt-1">
                   {it.size && <span>Size: <span className="text-foreground">{it.size}</span></span>}
                   {it.color && <span>Color: <span className="text-foreground">{it.color}</span></span>}
                 </div>
-                <div className="flex items-center justify-between mt-3">
+                <div className="flex flex-wrap items-center justify-between gap-3 mt-3">
                   <div className="flex items-center border border-border rounded-md">
                     <button onClick={() => update(it.id, it.qty - 1)} className="h-9 w-9 flex items-center justify-center hover:bg-muted"><Minus className="h-3 w-3" /></button>
                     <span className="w-9 text-center text-sm font-semibold">{it.qty}</span>
@@ -50,7 +50,7 @@ export default function Cart() {
                   <p className="font-display font-bold text-lg">${(it.product.price * it.qty).toFixed(0)}</p>
                 </div>
               </div>
-              <button onClick={() => remove(it.id)} className="text-muted-foreground hover:text-destructive self-start p-1">
+              <button onClick={() => remove(it.id)} className="text-muted-foreground hover:text-destructive self-start p-1 sm:ml-auto">
                 <Trash2 className="h-4 w-4" />
               </button>
             </div>
@@ -72,7 +72,7 @@ export default function Cart() {
 
           <div className="mt-6">
             <p className="text-xs uppercase tracking-wider text-muted-foreground mb-2">Coupon code</p>
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               <div className="relative flex-1">
                 <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                 <Input value={coupon} onChange={(e) => setCoupon(e.target.value)} placeholder="WELCOME10" className="pl-9" />

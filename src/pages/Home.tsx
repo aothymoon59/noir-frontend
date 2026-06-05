@@ -16,8 +16,8 @@ export default function Home() {
       <section className="relative overflow-hidden bg-card">
         <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-8 items-center min-h-[80vh] py-12">
           <div className="space-y-6 z-10">
-            <p className="text-xs uppercase tracking-[0.3em] text-gold">Winter Collection 2025</p>
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight">
+            <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold">Winter Collection 2025</p>
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight">
               Wear the<br />
               <span className="text-gradient-gold">Moment.</span>
             </h1>
@@ -53,7 +53,7 @@ export default function Home() {
             <div className="absolute left-0 bottom-0 w-2/3 h-1/2 rounded-2xl overflow-hidden border-4 border-background shadow-luxe">
               <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=700&h=900&fit=crop&q=80" alt="Hero 2" className="w-full h-full object-cover" />
             </div>
-            <div className="absolute right-8 bottom-8 bg-background/95 backdrop-blur-xl border border-border rounded-xl p-4 shadow-2xl max-w-[220px]">
+            <div className="absolute right-3 bottom-3 sm:right-8 sm:bottom-8 bg-background/95 backdrop-blur-xl border border-border rounded-xl p-4 shadow-2xl max-w-[min(220px,calc(100%-1.5rem))]">
               <p className="text-xs text-muted-foreground uppercase tracking-wider">Trending now</p>
               <p className="font-display font-semibold mt-1">Cashmere Overcoat</p>
               <p className="text-gold font-bold">$429</p>
@@ -84,9 +84,9 @@ export default function Home() {
 
       {/* Categories */}
       <section className="container mx-auto px-4 py-20">
-        <div className="flex items-end justify-between mb-10">
+        <div className="flex items-end justify-between gap-4 mb-10">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Shop by category</p>
+            <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-2">Shop by category</p>
             <h2 className="font-display text-4xl md:text-5xl font-bold">Explore the Edit</h2>
           </div>
           <Link to="/category/men" className="text-sm text-muted-foreground hover:text-gold hidden md:flex items-center gap-1">
@@ -111,7 +111,7 @@ export default function Home() {
       <section className="container mx-auto px-4 py-12">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Curated for you</p>
+            <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-2">Curated for you</p>
             <h2 className="font-display text-4xl md:text-5xl font-bold">Featured Pieces</h2>
           </div>
         </div>
@@ -124,7 +124,7 @@ export default function Home() {
       <section className="container mx-auto px-4 py-12">
         <div className="relative overflow-hidden rounded-2xl bg-foreground text-background grid lg:grid-cols-2 min-h-[400px]">
           <div className="p-8 md:p-14 flex flex-col justify-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-gold mb-4">Limited offer</p>
+            <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-4">Limited offer</p>
             <h3 className="font-display text-4xl md:text-6xl font-bold leading-tight">
               The Wedding<br /><span className="text-gold">Edit</span>
             </h3>
@@ -142,7 +142,7 @@ export default function Home() {
       {/* Trending */}
       <section className="container mx-auto px-4 py-12">
         <div className="mb-10">
-          <p className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Right now</p>
+          <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-2">Right now</p>
           <h2 className="font-display text-4xl md:text-5xl font-bold">Trending</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -153,12 +153,12 @@ export default function Home() {
       {/* New arrivals strip */}
       <section className="container mx-auto px-4 py-12">
         <div className="mb-10">
-          <p className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Fresh drops</p>
+          <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-2">Fresh drops</p>
           <h2 className="font-display text-4xl md:text-5xl font-bold">New Arrivals</h2>
         </div>
         <div className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-4 snap-x">
           {newArrivals.map((p) => (
-            <div key={p.id} className="snap-start shrink-0 w-[240px] md:w-[280px]">
+            <div key={p.id} className="snap-start shrink-0 w-[min(240px,82vw)] md:w-[280px]">
               <ProductCard p={p} />
             </div>
           ))}
@@ -168,7 +168,7 @@ export default function Home() {
       {/* Testimonials */}
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-12">
-          <p className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Loved by thousands</p>
+          <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-2">Loved by thousands</p>
           <h2 className="font-display text-4xl md:text-5xl font-bold">What customers say</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
@@ -192,9 +192,9 @@ export default function Home() {
 
       {/* Blog */}
       <section className="container mx-auto px-4 py-12">
-        <div className="flex items-end justify-between mb-10">
+        <div className="flex items-end justify-between gap-4 mb-10">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-gold mb-2">From the journal</p>
+            <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-2">From the journal</p>
             <h2 className="font-display text-4xl md:text-5xl font-bold">Stories & Style</h2>
           </div>
           <Link to="/blog" className="text-sm hover:text-gold flex items-center gap-1">All articles <ArrowRight className="h-3 w-3" /></Link>
