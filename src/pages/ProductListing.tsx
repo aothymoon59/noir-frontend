@@ -134,30 +134,30 @@ export default function ProductListing() {
         <p className="text-sm text-muted-foreground mt-2">{filtered.length} products</p>
       </div>
 
-      <div className="grid lg:grid-cols-[280px_1fr] gap-8">
+      <div className="grid min-w-0 lg:grid-cols-[minmax(0,280px)_minmax(0,1fr)] gap-8">
         {/* Sidebar filters */}
         <aside className="hidden lg:block sticky top-28 self-start">
           <FilterPanel {...filterProps} />
         </aside>
 
-        <div>
+        <div className="min-w-0">
           {/* Toolbar */}
-          <div className="flex items-center justify-between gap-3 mb-6 pb-4 border-b border-border">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-border">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="sm" className="lg:hidden">
                   <SlidersHorizontal className="h-4 w-4 mr-2" /> Filters
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[320px] overflow-y-auto">
+              <SheetContent side="left" className="w-[min(20rem,calc(100vw-2rem))] overflow-y-auto">
                 <h3 className="font-display text-xl font-bold mb-6">Filters</h3>
                 <FilterPanel {...filterProps} />
               </SheetContent>
             </Sheet>
 
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex min-w-0 items-center gap-2 ml-auto">
               <Select value={sort} onValueChange={setSort}>
-                <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="w-[min(160px,48vw)]"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="featured">Featured</SelectItem>
                   <SelectItem value="price-asc">Price: Low to High</SelectItem>

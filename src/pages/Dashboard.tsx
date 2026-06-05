@@ -18,7 +18,7 @@ const links = [
 export function DashboardLayout() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="grid lg:grid-cols-[260px_1fr] gap-8">
+      <div className="grid min-w-0 lg:grid-cols-[minmax(0,260px)_minmax(0,1fr)] gap-8">
         <aside className="bg-card border border-border rounded-xl p-4 h-fit lg:sticky lg:top-28">
           <div className="flex items-center gap-3 p-2 mb-4">
             <div className="h-12 w-12 rounded-full bg-gold flex items-center justify-center font-display font-bold text-gold-foreground">SA</div>
@@ -40,7 +40,7 @@ export function DashboardLayout() {
             </Link>
           </nav>
         </aside>
-        <div><Outlet /></div>
+        <div className="min-w-0"><Outlet /></div>
       </div>
     </div>
   );
@@ -107,11 +107,11 @@ export function DashboardOrders() {
               </div>
               <span className={cn("text-xs font-semibold px-3 py-1 rounded-full", statusColor(o.status))}>{o.status}</span>
             </div>
-            <div className="flex items-center gap-4 mt-4">
+            <div className="flex flex-wrap items-center gap-4 mt-4">
               <div className="flex -space-x-2">
                 {o.items.map((it, i) => <img key={i} src={it.image} className="h-12 w-12 rounded-md border-2 border-card object-cover" />)}
               </div>
-              <div className="flex-1 text-sm">
+              <div className="min-w-0 flex-1 text-sm">
                 <p className="text-muted-foreground">{o.items.length} item{o.items.length > 1 ? "s" : ""}</p>
                 <p className="font-display font-bold text-lg">${o.total.toFixed(2)}</p>
               </div>
@@ -131,9 +131,9 @@ export function DashboardAddresses() {
   ];
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h1 className="font-display text-3xl font-bold">Addresses</h1>
-        <Button>Add address</Button>
+        <Button className="shrink-0">Add address</Button>
       </div>
       <div className="grid sm:grid-cols-2 gap-4">
         {addrs.map((a) => (

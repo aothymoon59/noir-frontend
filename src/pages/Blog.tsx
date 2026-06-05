@@ -7,7 +7,7 @@ export function BlogList() {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
-        <p className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Journal</p>
+        <p className="text-xs uppercase tracking-[0.18em] sm:tracking-[0.3em] text-gold mb-2">Journal</p>
         <h1 className="font-display text-4xl md:text-6xl font-bold">Stories & Style</h1>
         <p className="text-muted-foreground mt-3 max-w-xl mx-auto">Inspiration, behind-the-scenes, and conversations with the people shaping fashion.</p>
       </div>
@@ -21,7 +21,7 @@ export function BlogList() {
           <p className="text-xs uppercase tracking-wider text-gold">{blogPosts[0].category} · Featured</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold mt-3 group-hover:text-gold">{blogPosts[0].title}</h2>
           <p className="text-muted-foreground mt-4">{blogPosts[0].excerpt}</p>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground mt-6">
+          <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground mt-6">
             <span className="flex items-center gap-1"><User className="h-3 w-3" /> {blogPosts[0].author}</span>
             <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {blogPosts[0].date}</span>
             <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {blogPosts[0].readTime}</span>
@@ -53,7 +53,7 @@ export function BlogDetail() {
       </Link>
       <p className="text-xs uppercase tracking-wider text-gold">{post.category}</p>
       <h1 className="font-display text-4xl md:text-5xl font-bold mt-3">{post.title}</h1>
-      <div className="flex items-center gap-4 text-xs text-muted-foreground mt-4 mb-8">
+      <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground mt-4 mb-8">
         <span className="flex items-center gap-1"><User className="h-3 w-3" /> {post.author}</span>
         <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {post.date}</span>
         <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {post.readTime}</span>

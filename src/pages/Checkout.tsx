@@ -27,7 +27,7 @@ export default function Checkout() {
       <Link to="/" className="font-display text-2xl font-bold inline-block mb-2">NOIR<span className="text-gold">.</span></Link>
       <h1 className="font-display text-3xl md:text-4xl font-bold mb-8">Checkout</h1>
 
-      <form onSubmit={place} className="grid lg:grid-cols-[1fr_420px] gap-8">
+      <form onSubmit={place} className="grid min-w-0 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] gap-8">
         <div className="space-y-6">
           {/* Contact */}
           <section className="bg-card border border-border rounded-xl p-6">
@@ -59,7 +59,7 @@ export default function Checkout() {
                 { v: "standard", t: "Standard (3-5 days)", p: subtotal > 99 ? "Free" : "$9.00", icon: Truck },
                 { v: "express", t: "Express (1-2 days)", p: "$19.00", icon: Truck },
               ].map((o) => (
-                <label key={o.v} className="flex items-center gap-3 p-3 border border-border rounded-md cursor-pointer hover:border-gold">
+                <label key={o.v} className="flex flex-wrap items-center gap-3 p-3 border border-border rounded-md cursor-pointer hover:border-gold sm:flex-nowrap">
                   <RadioGroupItem value={o.v} />
                   <o.icon className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm flex-1">{o.t}</span>
@@ -99,7 +99,7 @@ export default function Checkout() {
           <h2 className="font-display text-lg font-semibold mb-4">Order summary</h2>
           <div className="space-y-3 max-h-72 overflow-y-auto pr-2 mb-4">
             {items.map((it) => (
-              <div key={it.id} className="flex gap-3 text-sm">
+              <div key={it.id} className="flex min-w-0 gap-3 text-sm">
                 <div className="relative shrink-0">
                   <img src={it.product.images[0]} className="w-14 h-14 rounded object-cover" />
                   <span className="absolute -top-1 -right-1 bg-foreground text-background text-[10px] rounded-full h-5 w-5 flex items-center justify-center">{it.qty}</span>
